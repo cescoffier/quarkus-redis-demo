@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heroes!</title>
+
+    <link href="https://fonts.cdnfonts.com/css/bangers" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <style>
+        .title {
+            font-family: 'Bangers', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div class="container main">
+    <div class="row">
+        <div class="col s12">
+            <h1 class="title header center pink-text darken-4-text">Heroes!</h1>
+            <h2 class="subtitle center  indigo-text lighten-1-text">
+                Response loaded in: <span id="time">...</span>
+            </h2>
+        </div>
+    </div>
+
+    <div id="resp" class="row center-align">
+
+    </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+
+    (function () {
+        const  begin = Date.now();
+        fetch("/heroes")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                const  end = Date.now();
+                document.getElementById("time").innerHTML = (end - begin) + "ms ";
+                insertHeroes(data);
+            });
+    })();
+
+    function insertHeroes(data) {
+        const resp = document.getElementById("resp");
+        data.heroes.forEach(h => {
+           const element = createHeroElement(h);
+           resp.append(element);
+        });
+    }
+
+    function createHeroElement(hero) {
+        const img = document.createElement("img");
+        img.setAttribute("src", hero.picture);
+        img.setAttribute("alt", hero.name);
+        return img;
+    }
+
+
+    function replace(src, name) {
+        const figure = document.getElementById("hero");
+        const current = figure.querySelector("img.opaque");
+        const  img = document.createElement("img");
+        img.setAttribute("src", src);
+        img.setAttribute("alt", name);
+        if (current) {
+            img.style.left = current.getBoundingClientRect().left + "px";
+            img.style.position = 'absolute';
+        }
+        figure.append(img);
+
+        setTimeout(() => {
+            if (current) {
+                current.classList.remove("opaque");
+                setTimeout(() => { figure.removeChild(current)}, 1000);
+            }
+            img.classList.add("opaque");
+        }, 1000);
+    }
+</script>
+</body>
+</html>
