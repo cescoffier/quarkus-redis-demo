@@ -11,17 +11,17 @@ import java.util.function.Supplier;
 @ApplicationScoped
 public class MyRedisCache {
 
-    private final StringCommands<String, RankingResult> commands;
+    private final StringCommands<String, Ranking> commands;
 
     public MyRedisCache(RedisDataSource ds) {
-        this.commands = ds.string(RankingResult.class);
+        this.commands = ds.string(Ranking.class);
     }
 
-    public RankingResult get(String key) {
+    public Ranking get(String key) {
         return commands.get(key);
     }
 
-    public void set(String key, RankingResult result) {
+    public void set(String key, Ranking result) {
         commands.set(key, result, new SetArgs().ex(Duration.ofSeconds(10)));
     }
 
@@ -29,7 +29,7 @@ public class MyRedisCache {
         commands.getdel(key);
     }
 
-    public RankingResult getOrSetIfAbsent(String key, Supplier<RankingResult> computation) {
+    public Ranking getOrSetIfAbsent(String key, Supplier<Ranking> computation) {
         var cached = get(key);
         if (cached != null) {
             return cached;

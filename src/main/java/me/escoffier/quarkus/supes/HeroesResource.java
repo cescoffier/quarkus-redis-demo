@@ -13,7 +13,7 @@ public class HeroesResource {
     }
 
     @GET
-    public RankingResult getTopHeroes() {
+    public Ranking getTopHeroes() {
         return this.service.getTopHeroes();
     }
 

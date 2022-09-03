@@ -10,10 +10,10 @@ public class HeroService {
     @Inject
     MyRedisCache cache;
 
-    public RankingResult getTopHeroes() {
+    public Ranking getTopHeroes() {
         return cache.getOrSetIfAbsent("top", () -> {
                     // Dumb approach, don't do this
-                    return new RankingResult(Hero.<Hero>listAll()
+                    return new Ranking(Hero.<Hero>listAll()
                             .stream()
                             .sorted((o1, o2) -> Integer.compare(o2.level, o1.level))
                             .peek(h -> {

@@ -2,15 +2,15 @@ package me.escoffier.quarkus.supes;
 
 import java.util.List;
 
-public class RankingResult {
+public class Ranking {
 
     public List<Hero> heroes;
 
-    public RankingResult() {
+    public Ranking() {
 
     }
 
-    public RankingResult(List<Hero> heroes) {
+    public Ranking(List<Hero> heroes) {
         this.heroes = heroes;
     }
 }
